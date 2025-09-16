@@ -65,7 +65,7 @@ class Editor
   end
 
   def clear!
-    @text = ""
+    @text = +""
     @cursor = 0
   end
 end

@@ -4,12 +4,28 @@ LEVELS_DATA = [
   # Level 0 - just go up
   {
     player: Point.new(x: 1, y: 3),
-    target: Point.new(x: 1, y: 1),
+    target: Point.new(x: 1, y: 2),
+  },
+  # Level 1 - same, but add a treat
+  {
+    player: Point.new(x: 1, y: 3),
+    target: Point.new(x: 1, y: 2),
     treats: [
-      Treat.new(position: Point.new(x: 1, y: 2)),
+      Treat.new(position: Point.new(x: 0, y: 3)),
     ],
   },
-  # Level 1 - spiral
+  # Level 2 - watch out the holes
+  {
+    player: Point.new(x: 1, y: 3),
+    target: Point.new(x: 1, y: 1),
+    holes: [
+      Hole.new(position: Point.new(x: 1, y: 2)),
+    ],
+    treats: [
+      Treat.new(position: Point.new(x: 0, y: 3)),
+    ],
+  },
+  # Level 3 - spiral
   {
     player: Point.new(x: 5, y: 5),
     walls: [
@@ -43,11 +59,7 @@ LEVELS_DATA = [
     ],
     target: Point.new(x: 3, y: 6),
   },
-
-  # {
-  #   turtle: Point.new(x: 1, y: 3),
-  #   apple: Point.new(x: 6, y: 2),
-  # },
+  # Level 4 - introduce loops
   {
     player: Point.new(x: 0, y: 0),
     walls: [
