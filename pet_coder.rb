@@ -1,4 +1,6 @@
-require 'gosu'
+# frozen_string_literal: true
+
+require "gosu"
 require_relative "lib/media"
 require_relative "lib/point"
 require_relative "lib/parser"

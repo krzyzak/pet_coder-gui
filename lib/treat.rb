@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Treat
   attr_reader :position, :points
 

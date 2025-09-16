@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Media
   PLAYER = Gosu::Image.new("media/player.png")
   TARGET = Gosu::Image.new("media/target.png")
