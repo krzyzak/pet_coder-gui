@@ -3,11 +3,16 @@
 class Game
   GRID_SIZE = 10
 
+  attr_reader :player_type, :target_type, :treat_type
+
   def initialize
     @level_index = 0
     @state = State.new(treats: level.treats)
     @executing_state = @state.clone!
     @executing = false
+    switch_player!
+    switch_target!
+    switch_treat!
   end
 
   def start!
@@ -75,6 +80,18 @@ class Game
 
   def level
     @level ||= Level.fetch(@level_index)
+  end
+
+  def switch_player!
+    @player_type = Media.players.next
+  end
+
+  def switch_target!
+    @target_type = Media.targets.next
+  end
+
+  def switch_treat!
+    @treat_type = Media.treats.next
   end
 
   private
