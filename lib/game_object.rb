@@ -45,8 +45,8 @@ class GameObject
     position.y
   end
 
-  def on_treat?
-    treats.any? { |treat| treat == position }
+  def treat
+    treats.find { |treat| treat.position == position }
   end
 
   private

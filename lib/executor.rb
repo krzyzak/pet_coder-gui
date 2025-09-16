@@ -9,7 +9,6 @@ class Executor
   def call
     return clear! if execution_finished?
 
-
     case command
     when :left
       game.player.move_left
@@ -27,6 +26,7 @@ class Executor
 
   def start!
     @running = true
+    game.start!
   end
 
   def running?
@@ -36,7 +36,7 @@ class Executor
   def clear!
     @index = 0
     @running = false
-    @parser.clear!
+    parser.clear!
 
     false
   end

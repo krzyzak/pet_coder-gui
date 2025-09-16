@@ -3,6 +3,13 @@ class Game
 
   def initialize
     @level_index = 0
+    @state = State.new(treats: level.treats)
+    @executing_state = @state.clone!
+    @executing = false
+  end
+
+  def start!
+    @executing = true
   end
 
   def player
@@ -13,6 +20,18 @@ class Game
     level.target
   end
 
+  def points
+    current_state.points
+  end
+
+  def lives
+    current_state.lives
+  end
+
+  def treats
+    current_state.treats
+  end
+
   def grid_size
     GRID_SIZE
   end
@@ -21,7 +40,16 @@ class Game
     raise NotImplementedError
   end
 
+  def consume_treat(treat)
+    return unless treat
+    treats.delete_if { it == treat }
+    current_state.points += treat.points
+  end
+
   def restart_level!
+    @state.lives -= 1
+    @executing_state = @state.clone
+    @executing = false
     @player = nil
   end
 
@@ -29,6 +57,9 @@ class Game
     @level_index += 1
     @level = nil
     @player = nil
+    @state = @executing_state
+    @executing_state = @state.clone
+    @executing = false
   end
 
   def scored?
@@ -40,4 +71,8 @@ class Game
   end
 
   private
+
+  def current_state
+    @executing ? @executing_state : @state
+  end
 end

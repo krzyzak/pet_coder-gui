@@ -16,9 +16,6 @@ class Window < Gosu::Window
     @parser = Parser.new
     @executor = Executor.new(game: game, parser: parser)
 
-    @points = 0
-    @lives = 3
-
     @font = Gosu::Font.new(30)
     @button_font = Gosu::Font.new(24)
     @score_font = Gosu::Font.new(28)
@@ -29,6 +26,8 @@ class Window < Gosu::Window
   def update
     if executor.running? && Gosu.milliseconds - @animation_timer > 500
       if executor.call
+        game.consume_treat(game.player.treat)
+
         @animation_timer = Gosu.milliseconds
       else
         end_execution
@@ -40,12 +39,9 @@ class Window < Gosu::Window
     executor.clear!
 
     if game.scored?
-      @points += 10
       editor.clear!
       game.level_up!
-
     else
-      @lives -= 1
       @game.restart_level!
     end
   end
@@ -104,11 +100,6 @@ class Window < Gosu::Window
     @font.draw_text("Examples: left, right, up, down", text_x, 30, 1, 1, 1, Gosu::Color::BLACK)
     @font.draw_text("5.times { right }, 3.times { up }", text_x, 50, 1, 1, 1, Gosu::Color::BLACK)
 
-    if @lives <= 0
-      @font.draw_text("GAME OVER! Press R to restart", text_x, 70, 1, 1, 1, Gosu::Color::RED)
-      return
-    end
-
     editor.lines.each.with_index do |line, index|
       @font.draw_text(line, text_x, 90 + index * 25, 1, 1, 1, Gosu::Color::BLACK)
     end
@@ -137,7 +128,7 @@ class Window < Gosu::Window
     when Gosu::KB_RETURN
       editor.append("\n")
     when Gosu::MS_LEFT
-      if mouse_over_run_button? && @lives > 0
+      if mouse_over_run_button? && game.lives > 0
         run_code
       elsif mouse_over_clear_button?
         clear_code
@@ -166,13 +157,13 @@ class Window < Gosu::Window
 
   def draw_score
     # Single line display: Points and hearts for lives
-    score_text = "Points: #{@points}  Lives: "
+    score_text = "Points: #{game.points}  Lives: "
     text_width = @score_font.text_width(score_text)
 
     @score_font.draw_text(score_text, 10, 10, 1, 1, 1, Gosu::Color::WHITE)
 
     # Draw heart images for lives
-    @lives.times do |i|
+    game.lives.times do |i|
       heart_x = 10 + text_width + (i * 35)
       Media::HEART.draw(heart_x, 10, 1, 30.0 / Media::HEART.width, 30.0 / Media::HEART.height)
     end
@@ -191,20 +182,12 @@ class Window < Gosu::Window
   end
 
   def run_code
-    return if executor.running? || @lives <= 0
+    return if executor.running? || game.lives <= 0
     parser.parse(editor.text)
     executor.start!
 
     @animation_timer = Gosu.milliseconds
   end
-
-  # def restart_game
-  #   @points = 0
-  #   @lives = 3
-
-  #   game.restart!
-  #   editor.clear!
-  # end
 
   private
 
@@ -251,7 +234,7 @@ class Window < Gosu::Window
   end
 
   def draw_treats
-    draw_item(items: game.level.treats, media: Media::TREAT)
+    draw_item(items: game.treats.map(&:position), media: Media::TREAT)
   end
 
   def draw_item(items:, media:)
