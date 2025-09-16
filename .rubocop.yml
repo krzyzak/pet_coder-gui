@@ -1,3 +1,7 @@
+plugins:
+  - rubocop-rspec
+  - rubocop-performance
+
 inherit_gem:
   rubocop-shopify: rubocop.yml
 
@@ -18,4 +22,22 @@ Style/ClassMethodsDefinitions:
 Naming/InclusiveLanguage:
   Enabled: false
 Naming/PredicateMethod:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/NestedGroups:
+  Enabled: false
+RSpec/BeEq:
+  Enabled: false
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/NamedSubject:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/ExpectInHook:
+  Enabled: false
+RSpec/IndexedLet:
   Enabled: false

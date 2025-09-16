@@ -28,7 +28,7 @@ class Editor
   attr_reader :cursor, :text
 
   def initialize
-    @text = ""
+    @text = +""
     @cursor = 0
   end
 
@@ -54,7 +54,7 @@ class Editor
     return if text.empty?
 
     @text.insert(cursor, text)
-    @cursor += 1
+    @cursor += text.length
   end
 
   def backspace
