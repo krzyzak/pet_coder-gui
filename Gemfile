@@ -14,4 +14,5 @@ group :development do
   gem "rubocop", require: false
   gem "rubocop-shopify", require: false
   gem "rubocop-rspec", require: false
+  gem "rubocop-performance", require: false
 end
