@@ -1,5 +1,6 @@
-class GameObject
+# frozen_string_literal: true
 
+class GameObject
   attr_reader :position, :grid_size, :treats, :holes
 
   def initialize(position:, grid_size:, walls: [], treats: [], holes: [])

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Game
   GRID_SIZE = 10
 
@@ -46,6 +48,7 @@ class Game
 
   def consume_treat(treat)
     return unless treat
+
     treats.delete_if { it == treat }
     current_state.points += treat.points
   end

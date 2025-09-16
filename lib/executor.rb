@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Executor
   def initialize(game:, parser:)
     @game = game

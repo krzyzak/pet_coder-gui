@@ -1,0 +1,21 @@
+inherit_gem:
+  rubocop-shopify: rubocop.yml
+
+Layout/LineLength:
+  Max: 160
+Lint/MissingSuper:
+  Enabled: false
+Style/MethodCallWithArgsParentheses:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/SymbolProc:
+  Enabled: false
+Style/ClassVars:
+  Enabled: false
+Style/ClassMethodsDefinitions:
+  Enabled: false
+Naming/InclusiveLanguage:
+  Enabled: false
+Naming/PredicateMethod:
+  Enabled: false

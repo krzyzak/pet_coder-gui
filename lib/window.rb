@@ -1,12 +1,12 @@
+# frozen_string_literal: true
+
 class Window < Gosu::Window
   SIZE = {
     width: 1600,
-    height: 1200
+    height: 1200,
   }
   CELL_SIZE = 100
-  GAME_CODE_RATIO = 0.75  # 75% game area, 25% code area
-
-  attr_reader :game
+  GAME_CODE_RATIO = 0.75 # 75% game area, 25% code area
 
   def initialize
     super(*SIZE.values)
@@ -183,6 +183,7 @@ class Window < Gosu::Window
 
   def run_code
     return if executor.running? || game.lives <= 0
+
     parser.parse(editor.text)
     executor.start!
 
@@ -246,9 +247,13 @@ class Window < Gosu::Window
     items.each do |item|
       x, y = grid_to_screen_coords(item.x, item.y)
 
-      media.draw(x + 2, y + 2, 1,
-                       (CELL_SIZE - 4).to_f / media.width,
-                       (CELL_SIZE - 4).to_f / media.height)
+      media.draw(
+        x + 2,
+        y + 2,
+        1,
+        (CELL_SIZE - 4).to_f / media.width,
+        (CELL_SIZE - 4).to_f / media.height,
+      )
     end
   end
 end

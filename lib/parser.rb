@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Parser
   class Context
     attr_reader :commands
@@ -21,7 +23,6 @@ class Parser
     def right
       @commands << :right
     end
-
   end
 
   def initialize
