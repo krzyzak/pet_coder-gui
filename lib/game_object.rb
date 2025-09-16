@@ -1,12 +1,13 @@
 class GameObject
 
-  attr_reader :position, :grid_size, :treats
+  attr_reader :position, :grid_size, :treats, :holes
 
-  def initialize(position:, grid_size:, walls: [], treats: [])
+  def initialize(position:, grid_size:, walls: [], treats: [], holes: [])
     @position = position
     @grid_size = grid_size
     @walls = walls
     @treats = treats
+    @holes = holes
   end
 
   def move_up
@@ -47,6 +48,10 @@ class GameObject
 
   def treat
     treats.find { |treat| treat.position == position }
+  end
+
+  def on_hole?
+    holes.any? { |hole| hole.position == position }
   end
 
   private
