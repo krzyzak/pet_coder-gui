@@ -106,9 +106,8 @@ class Window < Gosu::Window
   end
 
   def draw_button
-    # Position buttons at bottom of code area
     code_area_x = SIZE[:width] * GAME_CODE_RATIO
-    button_y = SIZE[:height] - 60
+    button_y = SIZE[:height] - 180
     button_width = 120
     button_height = 50
 
@@ -119,6 +118,20 @@ class Window < Gosu::Window
     clear_button_x = run_button_x + button_width + 20
     Gosu.draw_rect(clear_button_x, button_y, button_width, button_height, Gosu::Color::RED)
     @font.draw_text("CLEAR", clear_button_x + 30, button_y + 15, 1, 1, 1, Gosu::Color::WHITE)
+
+    player_button_y = button_y + 60
+    player_button_x = code_area_x + 20
+    Gosu.draw_rect(player_button_x, player_button_y, button_width, button_height, Gosu::Color::GREEN)
+    @button_font.draw_text("Player", player_button_x + 5, player_button_y + 12, 1, 1, 1, Gosu::Color::WHITE)
+
+    target_button_x = player_button_x + button_width + 20
+    Gosu.draw_rect(target_button_x, player_button_y, button_width, button_height, Gosu::Color::YELLOW)
+    @button_font.draw_text("Target", target_button_x + 5, player_button_y + 12, 1, 1, 1, Gosu::Color::BLACK)
+
+    treat_button_y = player_button_y + 60
+    treat_button_x = code_area_x + 20
+    Gosu.draw_rect(treat_button_x, treat_button_y, button_width, button_height, Gosu::Color::CYAN)
+    @button_font.draw_text("Treat", treat_button_x + 5, treat_button_y + 12, 1, 1, 1, Gosu::Color::BLACK)
   end
 
   def button_down(id)
@@ -132,6 +145,12 @@ class Window < Gosu::Window
         run_code
       elsif mouse_over_clear_button?
         clear_code
+      elsif mouse_over_player_button?
+        game.switch_player!
+      elsif mouse_over_target_button?
+        game.switch_target!
+      elsif mouse_over_treat_button?
+        game.switch_treat!
       end
     else
       editor.append_char(id, shift: Gosu.button_down?(Gosu::KB_RIGHT_SHIFT) || Gosu.button_down?(Gosu::KB_LEFT_SHIFT))
@@ -140,7 +159,7 @@ class Window < Gosu::Window
 
   def mouse_over_run_button?
     code_area_x = SIZE[:width] * GAME_CODE_RATIO
-    button_y = SIZE[:height] - 60
+    button_y = SIZE[:height] - 180
     run_button_x = code_area_x + 20
 
     mouse_x >= run_button_x && mouse_x <= (run_button_x + 120) && mouse_y >= button_y && mouse_y <= (button_y + 50)
@@ -148,11 +167,35 @@ class Window < Gosu::Window
 
   def mouse_over_clear_button?
     code_area_x = SIZE[:width] * GAME_CODE_RATIO
-    button_y = SIZE[:height] - 60
+    button_y = SIZE[:height] - 180
     run_button_x = code_area_x + 20
     clear_button_x = run_button_x + 140
 
     mouse_x >= clear_button_x && mouse_x <= (clear_button_x + 120) && mouse_y >= button_y && mouse_y <= (button_y + 50)
+  end
+
+  def mouse_over_player_button?
+    code_area_x = SIZE[:width] * GAME_CODE_RATIO
+    player_button_y = SIZE[:height] - 120
+    player_button_x = code_area_x + 20
+
+    mouse_x >= player_button_x && mouse_x <= (player_button_x + 120) && mouse_y >= player_button_y && mouse_y <= (player_button_y + 50)
+  end
+
+  def mouse_over_target_button?
+    code_area_x = SIZE[:width] * GAME_CODE_RATIO
+    player_button_y = SIZE[:height] - 120
+    target_button_x = code_area_x + 20 + 140
+
+    mouse_x >= target_button_x && mouse_x <= (target_button_x + 120) && mouse_y >= player_button_y && mouse_y <= (player_button_y + 50)
+  end
+
+  def mouse_over_treat_button?
+    code_area_x = SIZE[:width] * GAME_CODE_RATIO
+    treat_button_y = SIZE[:height] - 60
+    treat_button_x = code_area_x + 20
+
+    mouse_x >= treat_button_x && mouse_x <= (treat_button_x + 120) && mouse_y >= treat_button_y && mouse_y <= (treat_button_y + 50)
   end
 
   def draw_score
@@ -224,11 +267,11 @@ class Window < Gosu::Window
   end
 
   def draw_player
-    draw_item(items: [game.player], media: Media::PLAYER)
+    draw_item(items: [game.player], media: Media::PLAYERS.fetch(game.player_type))
   end
 
   def draw_target
-    draw_item(items: [game.target], media: Media::TARGET)
+    draw_item(items: [game.target], media: Media::TARGETS.fetch(game.target_type))
   end
 
   def draw_walls
@@ -236,7 +279,7 @@ class Window < Gosu::Window
   end
 
   def draw_treats
-    draw_item(items: game.treats.map(&:position), media: Media::TREAT)
+    draw_item(items: game.treats.map(&:position), media: Media::TREATS.fetch(game.treat_type))
   end
 
   def draw_holes
