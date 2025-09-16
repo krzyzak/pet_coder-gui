@@ -4,4 +4,5 @@ class Media
   WALL = Gosu::Image.new("media/wall.png")
   BACKGROUND = Gosu::Image.new("media/background.png")
   HEART = Gosu::Image.new("media/heart.png")
+  TREAT = Gosu::Image.new("media/treat.png")
 end

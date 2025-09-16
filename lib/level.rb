@@ -2,7 +2,10 @@ LEVELS_DATA = [
   # Level 0 - just go up
   {
     player: Point.new(x: 1, y: 3),
-    target: Point.new(x: 1, y: 2),
+    target: Point.new(x: 1, y: 1),
+    treats: [
+      Point.new(x: 1, y: 2)
+    ]
   },
   # Level 1 - spiral
   {
@@ -63,12 +66,13 @@ class Level
     new(**data)
   end
 
-  def initialize(player:, target:, walls: [], max_lines: -1)
+  def initialize(player:, target:, walls: [], treats: [], max_lines: -1)
     @player = player
     @target = target
     @walls = walls
+    @treats = treats
     @max_lines = max_lines
   end
 
-  attr_reader :player, :target, :walls
+  attr_reader :player, :target, :walls, :treats
 end

@@ -114,39 +114,6 @@ class Window < Gosu::Window
     end
   end
 
-  def draw_sprites
-    draw_walls
-    draw_player
-    draw_target
-  end
-
-  def draw_player
-    x, y = grid_to_screen_coords(game.player.x, game.player.y)
-
-    # Draw the player image scaled to fit the cell
-    Media::PLAYER.draw(x + 2, y + 2, 1,
-                       (CELL_SIZE - 4).to_f / Media::PLAYER.width,
-                       (CELL_SIZE - 4).to_f / Media::PLAYER.height)
-  end
-
-  def draw_target
-    x, y = grid_to_screen_coords(game.target.x, game.target.y)
-
-    Media::TARGET.draw(x + 2, y + 2, 1,
-                       (CELL_SIZE - 4).to_f / Media::TARGET.width,
-                       (CELL_SIZE - 4).to_f / Media::TARGET.height)
-  end
-
-  def draw_walls
-    game.level.walls.each do |wall|
-      x, y = grid_to_screen_coords(wall.x, wall.y)
-
-      Media::WALL.draw(x + 2, y + 2, 1,
-                       (CELL_SIZE - 4).to_f / Media::WALL.width,
-                       (CELL_SIZE - 4).to_f / Media::WALL.height)
-    end
-  end
-
   def draw_button
     # Position buttons at bottom of code area
     code_area_x = SIZE[:width] * GAME_CODE_RATIO
@@ -262,5 +229,38 @@ class Window < Gosu::Window
   def level_up!
     @level_index += 1
     @level = nil
+  end
+
+  def draw_sprites
+    draw_walls
+    draw_treats
+    draw_player
+    draw_target
+  end
+
+  def draw_player
+    draw_item(items: [game.player], media: Media::PLAYER)
+  end
+
+  def draw_target
+    draw_item(items: [game.target], media: Media::TARGET)
+  end
+
+  def draw_walls
+    draw_item(items: game.level.walls, media: Media::WALL)
+  end
+
+  def draw_treats
+    draw_item(items: game.level.treats, media: Media::TREAT)
+  end
+
+  def draw_item(items:, media:)
+    items.each do |item|
+      x, y = grid_to_screen_coords(item.x, item.y)
+
+      media.draw(x + 2, y + 2, 1,
+                       (CELL_SIZE - 4).to_f / media.width,
+                       (CELL_SIZE - 4).to_f / media.height)
+    end
   end
 end
