@@ -69,6 +69,7 @@ class Game
     @level_index += 1
     @level = nil
     @player = nil
+    @executing_state.points += 100
     @state = @executing_state
     @executing_state = @state.clone
     @executing = false
