@@ -216,6 +216,7 @@ class Window < Gosu::Window
 
   def draw_sprites
     draw_walls
+    draw_holes
     draw_treats
     draw_player
     draw_target
@@ -235,6 +236,10 @@ class Window < Gosu::Window
 
   def draw_treats
     draw_item(items: game.treats.map(&:position), media: Media::TREAT)
+  end
+
+  def draw_holes
+    draw_item(items: game.holes.map(&:position), media: Media::HOLE)
   end
 
   def draw_item(items:, media:)

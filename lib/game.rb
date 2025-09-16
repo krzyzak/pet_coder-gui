@@ -13,7 +13,7 @@ class Game
   end
 
   def player
-    @player ||= Player.new(position: level.player.dup, grid_size: GRID_SIZE, walls: level.walls, treats: level.treats)
+    @player ||= Player.new(position: level.player.dup, grid_size: GRID_SIZE, walls: level.walls, treats: level.treats, holes: holes)
   end
 
   def target
@@ -30,6 +30,10 @@ class Game
 
   def treats
     current_state.treats
+  end
+
+  def holes
+    level.holes
   end
 
   def grid_size

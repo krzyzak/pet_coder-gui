@@ -7,7 +7,7 @@ class Executor
   end
 
   def call
-    return clear! if execution_finished?
+    return clear! if execution_finished? || game.player.on_hole?
 
     case command
     when :left
