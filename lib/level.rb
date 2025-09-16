@@ -6,8 +6,8 @@ LEVELS_DATA = [
     player: Point.new(x: 1, y: 3),
     target: Point.new(x: 1, y: 1),
     treats: [
-      Treat.new(position: Point.new(x: 1, y: 2))
-    ]
+      Treat.new(position: Point.new(x: 1, y: 2)),
+    ],
   },
   # Level 1 - spiral
   {

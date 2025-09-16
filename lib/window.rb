@@ -8,8 +8,6 @@ class Window < Gosu::Window
   CELL_SIZE = 100
   GAME_CODE_RATIO = 0.75 # 75% game area, 25% code area
 
-  attr_reader :game
-
   def initialize
     super(*SIZE.values)
     self.caption = "Pet coder"
